@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDebounce } from "react-use";
-import { fetchMovies, loadTrendingMovies } from "./tmdb";
+import { fetchMovies, loadTrendingMovies } from "./utils/tmdb";
 import Header from "./components/Header";
 import TrendingMovies from "./components/TrendingMovies";
 import MovieList from "./components/MovieList";

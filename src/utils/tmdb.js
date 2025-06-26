@@ -1,3 +1,4 @@
+import axios from "axios";
 import { updateSearchCount, getTrendingMovies } from "./appwrite";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
@@ -17,12 +18,13 @@ export const fetchMovies = async (query = "", setIsLoading, setErrorMessage, set
         const endpoint = query
             ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
             : `${API_BASE_URL}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`;
-        const res = await fetch(endpoint, API_OPTIONS);
 
-        if (!res.ok) throw new Error("Failed to fetch movies");
-
-        const data = await res.json();
-        console.log(data);
+        const res = await axios.get(endpoint, API_OPTIONS);
+        
+        if (res.status !== 200) throw new Error("Failed to fetch movies");
+        
+        const data = res.data;
+        console.log(res.data);
 
         if (data.Response === "false")
             setErrorMessage(data.Error || "Failed to fetch movies");
@@ -44,7 +46,7 @@ export const loadTrendingMovies = async (setTrendingMovies) => {
     try {
         const movies = await getTrendingMovies();
         setTrendingMovies(movies);
-        console.log(movies);
+        // console.log(movies);
     } catch (err) {
         console.log(err);
     }
